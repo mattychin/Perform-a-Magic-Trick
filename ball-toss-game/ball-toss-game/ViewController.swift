@@ -108,7 +108,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         sphereNode.rotation = camera.rotation
         
         // Apply force to sphere in the direction the camera is facing
-        let (direction, _) = self.getUserVector()
+        let (direction, _) = self.getUserDirection()
         let sphereDirection = direction
         sphereNode.physicsBody?.applyForce(sphereDirection, asImpulse: true)
         
@@ -140,7 +140,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     // MARK: - ARSCNViewDelegate
     
     // Get camera direction for ball throwing
-    func getUserVector() -> (SCNVector3, SCNVector3) { // (direction, position)
+    func getUserDirection() -> (SCNVector3, SCNVector3) { // (direction, position)
         
         if let frame = self.sceneView.session.currentFrame {
             // 4x4 transform matrix representing camera in world coordinate space
