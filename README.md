@@ -14,7 +14,7 @@ XCode Version 9.0.1 (9A1004)
 - Tap the "Throw Ball" button to throw a ball
 - Tap the "Magic!" button to vanish the balls inside the hat 
 
-
+## Demo GIF
 ![Demo](https://github.com/mattychin/Perform-a-Magic-Trick/blob/master/20171019_200101-1.gif)
 
 
