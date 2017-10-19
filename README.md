@@ -11,8 +11,8 @@ XCode Version 9.0.1 (9A1004)
 - Run the app 
 - Wait until a plane has been detected (this will be shown as a grey rectangle on the screen)
 - Tap on the plane to place a magic hat
-- Tap "Throw Ball" to throw ball
-- Tap "Magic !" to vanish the balls inside the hat 
+- Tap the "Throw Ball" button to throw a ball
+- Tap the "Magic !" button to vanish the balls inside the hat 
 
 ## Author
 * **Matthew Chin**
