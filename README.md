@@ -1,5 +1,4 @@
-# Perform-a-Magic-Trick
-ARKit (with Swift) project: Perform a Magic Trick 
+# ARKit (with Swift) project: Perform a Magic Trick
 
 This app was tested on an iPhone 7 device running iOS 11.0.3
 
