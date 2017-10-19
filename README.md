@@ -15,7 +15,7 @@ XCode Version 9.0.1 (9A1004)
 - Tap the "Magic!" button to vanish the balls inside the hat 
 
 
-![Demo Doccou alpha](https://github.com/mattychin/Perform-a-Magic-Trick/blob/master/20171019_200101-1.gif)
+![Demo](https://github.com/mattychin/Perform-a-Magic-Trick/blob/master/20171019_200101-1.gif)
 
 
 ## Author
