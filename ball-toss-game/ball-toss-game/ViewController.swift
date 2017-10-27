@@ -19,7 +19,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         
         // Diaply the buttons
         createThrowButton()
-        createMagicButton()
+        createMagicSwitch()
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -51,6 +51,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         
         // Smooth edges of 3D objects to make them look nicer
         self.sceneView.antialiasingMode = .multisampling4X
+        
+        super.viewDidLoad()
+        
+        // Make a label for magicSwitch
+        let label = UILabel(frame: CGRect(x: 0, y: 520, width: 200, height: 21))
+        label.font = UIFont(name:"Arial", size: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor(red: 53.0/255.0, green: 155.0/255.0, blue: 220.0/255.0, alpha: 1.0)
+        label.textAlignment = .center
+        label.text = "Toggle Magic!"
+        self.view.addSubview(label)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,21 +130,43 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         print("Ball thrown")
     }
     
-    @IBAction func magicButttonPressed(_ sender: UIButton) {
-
-        guard let hat = sceneView.scene.rootNode.childNode(withName: "hat", recursively:true) else {return}
-
-        let min = hat.convertPosition((hat.boundingBox.min), to: sceneView.scene.rootNode)
-        let max = hat.convertPosition((hat.boundingBox.max), to: sceneView.scene.rootNode)
-
-        sceneView.scene.rootNode.enumerateChildNodes {node,_ in
+    //@IBAction func magicButttonPressed(_ sender: UIButton) {
+    @IBAction func magicButttonPressed(_ sender: UISwitch) {
         
-        // Since the hat is within its bounding box, we need to make our search volume smaller than the original bounding box to avoid removing the hat.  To do this we multiply by 0.99.
-        if node.presentation.position.x < 0.99*(max.x) && node.presentation.position.x > 0.99*(min.x) && node.presentation.position.y < 0.99*(max.y) && node.presentation.position.y > 0.99*(min.y) && node.presentation.position.z < 0.99*(max.z) && node.presentation.position.z > 0.99*(min.z) {
+        if (sender.isOn == true){
+        
+            guard let hat = sceneView.scene.rootNode.childNode(withName: "hat", recursively:true) else {return}
+            
+            let min = hat.convertPosition((hat.boundingBox.min), to: sceneView.scene.rootNode)
+            let max = hat.convertPosition((hat.boundingBox.max), to: sceneView.scene.rootNode)
+
+            sceneView.scene.rootNode.enumerateChildNodes {node,_ in
+        
+                // Since the hat is within its bounding box, we need to make our search volume smaller than the original bounding box to avoid removing the hat.  To do this we multiply by 0.99.
+                if node.presentation.position.x < 0.99*(max.x) && node.presentation.position.x > 0.99*(min.x) && node.presentation.position.y < 0.99*(max.y) && node.presentation.position.y > 0.99*(min.y) && node.presentation.position.z < 0.99*(max.z) && node.presentation.position.z > 0.99*(min.z) {
             
                 addParticleEffects()
-                node.removeFromParentNode()
+                node.geometry?.firstMaterial?.transparencyMode = .rgbZero
                 print("Magic!")
+                }
+            }
+        }
+        else{
+            
+            guard let hat = sceneView.scene.rootNode.childNode(withName: "hat", recursively:true) else {return}
+            
+            let min = hat.convertPosition((hat.boundingBox.min), to: sceneView.scene.rootNode)
+            let max = hat.convertPosition((hat.boundingBox.max), to: sceneView.scene.rootNode)
+            
+            sceneView.scene.rootNode.enumerateChildNodes {node,_ in
+                
+                // Since the hat is within its bounding box, we need to make our search volume smaller than the original bounding box to avoid removing the hat.  To do this we multiply by 0.99.
+                if node.presentation.position.x < 0.99*(max.x) && node.presentation.position.x > 0.99*(min.x) && node.presentation.position.y < 0.99*(max.y) && node.presentation.position.y > 0.99*(min.y) && node.presentation.position.z < 0.99*(max.z) && node.presentation.position.z > 0.99*(min.z) {
+                    
+                    addParticleEffects()
+                    node.geometry?.firstMaterial?.transparencyMode = SCNTransparencyMode(rawValue: 0)!
+                    print("Magic off")
+                }
             }
         }
     }
@@ -286,24 +320,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         self.view.addSubview(button)
     }
     
-    // Create button for vanishing balls
-    func createMagicButton() {
-        let button = UIButton(frame: CGRect(x: 30, y: 550, width: 150, height: 90))
-        let lightBlue = UIColor(red: 53.0/255.0, green: 155.0/255.0, blue: 220.0/255.0, alpha: 1.0)
-        let lightGrey = UIColor(red: 53, green: 155, blue: 220, alpha: 0.5)
-        button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
-        button.setTitleColor(lightBlue, for: .normal)
-        button.setTitleColor(lightGrey, for: .highlighted)
-        button.setTitle("Magic!", for: [])
-        button.titleLabel!.font =  UIFont(name:"Arial", size: 20)
-        button.addTarget(self, action: #selector(magicButttonPressed), for: .touchUpInside)
+    // Create switch button to toggle visibility of balls
+    func createMagicSwitch() {
+        let magicSwitch = UISwitch(frame:  CGRect(x: 70, y: 580, width: 0, height: 0))
+        magicSwitch.transform = CGAffineTransform(scaleX: 2.2, y: 2.2);
+        magicSwitch.isOn = true
+        magicSwitch.setOn(false, animated: false);
+        magicSwitch.addTarget(self, action: #selector(magicButttonPressed), for: .touchUpInside);
         
-        self.view.addSubview(button)
+        self.view.addSubview(magicSwitch);
     }
     
+    // Magic effect when MagicSwitch is toggled
     private func addParticleEffects() {
         let hat = sceneView.scene.rootNode.childNode(withName: "hat", recursively: true)
         let sparkles = SCNParticleSystem(named: "sparkles", inDirectory: nil)!
