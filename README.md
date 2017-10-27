@@ -16,7 +16,7 @@ XCode Version 9.0.1 (9A1004)
 - Toggle OFF the switch to make balls reappear
 
 ## Demo GIF
-![Demo](https://github.com/mattychin/Perform-a-Magic-Trick/blob/master/20171019_200101-1.gif)
+![Demo](https://github.com/mattychin/Perform-a-Magic-Trick/blob/master/20171027_223743.GIF)
 
 
 ## Author
